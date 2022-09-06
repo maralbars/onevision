@@ -25,7 +25,7 @@
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
-            <a class="navbar-brand m-0" href="{{ route('home') }}">
+            <a class="navbar-brand m-0" href="{{ route('feedback.index') }}">
                 <img src="../assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
                 <span class="ms-1 font-weight-bold">{{ config('app.name', 'Feedback CRM') }}</span>
             </a>
@@ -33,9 +33,9 @@
         <hr class="horizontal dark mt-0">
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
-                @can('see-feedback-list')
                 <li class="nav-item">
-                    <a class="nav-link @if ($route === 'home') active @endif" href="{{ route('home') }}">
+                    <a class="nav-link @if ($route === 'feedback.index') active @endif"
+                        href="{{ route('feedback.index') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="fa fa-home" aria-hidden="true"></i>
@@ -43,9 +43,10 @@
                         <span class="nav-link-text ms-1">List</span>
                     </a>
                 </li>
-                @endcan
+                @can('see-leave-feedback')
                 <li class="nav-item">
-                    <a class="nav-link @if ($route === 'favourite') active @endif" href="{{ route('home') }}">
+                    <a class="nav-link @if ($route === 'feedback.create') active @endif"
+                        href="{{ route('feedback.create') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="fa fa-star" aria-hidden="true"></i>
@@ -53,6 +54,7 @@
                         <span class="nav-link-text ms-1">Leave feedback</span>
                     </a>
                 </li>
+                @endcan
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -73,10 +75,11 @@
         <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
             navbar-scroll="false">
-            <div class="container py-1 px-4">
+            <div class="container-fluid py-1 px-4">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="{{ route('home') }}">{{
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
+                                href="{{ route('feedback.index') }}">{{
                                 config('app.name', 'Feedback CRM') }}</a></li>
                         <li class="breadcrumb-item text-sm text-dark active" aria-current="page">{{ $title }}</li>
                     </ol>
@@ -88,7 +91,7 @@
         <div class="container py-4">
             @yield('content')
         </div>
-        <div class="container">
+        <div class="container-fluid">
             <footer class="footer py-4">
                 <div class="row align-items-center justify-content-lg-between">
                     <div class="col-lg-6 mb-lg-0 mb-4">
