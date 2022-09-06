@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the user's last feedback.
+     */
+    public function latestFeedback()
+    {
+        return $this->hasOne(Feedback::class, 'client_id')->latestOfMany();
+    }
 }
