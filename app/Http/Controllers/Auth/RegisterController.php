@@ -78,7 +78,7 @@ class RegisterController extends Controller
      * @param  mixed  $user
      * @return mixed
      */
-    protected function registered(Request $request, $user)
+    protected function registered($_, User $user)
     {
         return $user->is_manager ?
             redirect()->route('feedback.index') :
