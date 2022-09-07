@@ -50,7 +50,7 @@
                                     <span class="text-secondary text-xs font-weight-bold">{{ $feedback->subject
                                         }}</span>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center text-wrap">
                                     <span class="text-secondary text-xs font-weight-bold">{{ $feedback->description
                                         }}</span>
                                 </td>
