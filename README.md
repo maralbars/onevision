@@ -28,6 +28,13 @@
 
 ## Решение
 
+### Требования
+
+Данная инструкция подразумевает, что у вас установлены:
+
+- Docker
+- PHP 8.1
+
 ### Порядок разворачивания приложения:
 
 ```
@@ -35,25 +42,28 @@
 cp .env.example .env
 
 # Build docker containers
-docker-compose up -d --build
+composer require laravel/sail --dev
 
-# Launch command line
-docker exec -it laravel.test bash
+# Add alias for sail if you have not it
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+
+# Run Docker-composer in background
+sail up -d
 
 # Install all composer and npm dependencies
-composer i && npm i
+sail composer i && npm i
 
 # Compile styles and javascript code
-npm run prod
+sail npm run prod
 
 # Create required tables
-php artisan migrate
+sail php artisan migrate
 
 # Add manager account
-php artisan db:seed --class=ManagerSeeder
+sail php artisan db:seed --class=ManagerSeeder
 
 # Launch queue worker
-php artisan queue:work
+sail php artisan queue:work
 
 ```
 

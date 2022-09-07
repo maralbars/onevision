@@ -29,10 +29,10 @@ class FeedbackController extends Controller
     public function index(Request $request)
     {
         $feedbacks = Feedback::orderBy('answered_at', 'desc')->orderBy('id', 'desc');
-        $title = 'My feedbacks list';
+        $title = 'All users feedbacks list';
         if (Gate::denies('see-full-feedback-list')) {
             $feedbacks->where('client_id', $request->user()->id);
-            $title = 'All users feedbacks list';
+            $title = 'My feedbacks list';
         }
         return view('list', [
             'title' => $title,
