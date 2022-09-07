@@ -53,14 +53,14 @@ php artisan migrate
 php artisan db:seed --class=ManagerSeeder
 
 # Launch queue worker
-sail php artisan queue:work
+php artisan queue:work
 
 ```
 
 ### Тестовая среда
 
-- (Вебсайт)[http://localhost]
-- (Проверка почтовых сообщений)[http://localhost:8025]
+- [Вебсайт](http://localhost)
+- [Проверка почтовых сообщений](http://localhost:8025)
 
 ### Примечаения
 
