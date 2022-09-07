@@ -69,6 +69,10 @@ sail php artisan queue:work
 
 ### Тестовая среда
 
+
+- Manager account:
+  - login: manager@example.com
+  - password: password
 - [Вебсайт](http://localhost)
 - [Проверка почтовых сообщений](http://localhost:8025)
 
