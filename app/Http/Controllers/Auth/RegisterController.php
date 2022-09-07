@@ -70,4 +70,18 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        return $user->is_manager ?
+            redirect()->route('feedback.index') :
+            redirect()->route('feedback.create');
+    }
 }
