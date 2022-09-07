@@ -118,8 +118,10 @@ class FeedbackController extends Controller
         if (Gate::denies('download-attachments', $feedback)) {
             return back()->withErrors(['You have no access to download attachments!']);
         }
-
-        Storage::exists($feedback->attachment_url);
+        
+        if (!Storage::exists($feedback->attachment_url)) {
+            return back()->withErrors(['The attachment is not exist yet!']);
+        }
 
         return Storage::download($feedback->attachment_url, $feedback->attachment_original_name);
     }
