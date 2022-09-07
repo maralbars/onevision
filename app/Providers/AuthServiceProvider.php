@@ -33,6 +33,13 @@ class AuthServiceProvider extends ServiceProvider
             return $user->is_manager;
         });
 
+        Gate::define('download-attachments', function (User $user, Feedback $feedback) {
+            if ($user->id == $feedback->client_id)
+                return true;
+
+            return $user->is_manager;
+        });
+
         Gate::define('change-feedback-status', function (User $user) {
             return $user->is_manager;
         });
@@ -41,12 +48,8 @@ class AuthServiceProvider extends ServiceProvider
             return !$user->is_manager;
         });
 
-        Gate::define('leave-feedback', function (User $user, Feedback $latestFeedback) {
-
-            if ($latestFeedback && ($latestFeedback->created_at < $latestFeedback->created_at->addDays(1)))
-                return false;
-
-            return true;
+        Gate::define('leave-feedback', function (User $user, ?Feedback $latestFeedback = null) {
+            return ! ($latestFeedback && ($latestFeedback->created_at < $latestFeedback->created_at->addDays(1)));
         });
     }
 }

@@ -28,10 +28,16 @@ class FeedbackController extends Controller
      */
     public function index(Request $request)
     {
+        $feedbacks = Feedback::orderBy('answered_at', 'desc')->orderBy('id', 'desc');
+        $title = 'My feedbacks list';
+        if (Gate::denies('see-full-feedback-list')) {
+            $feedbacks->where('client_id', $request->user()->id);
+            $title = 'All users feedbacks list';
+        }
         return view('list', [
-            'title' => 'List',
+            'title' => $title,
             'route' => $request->route()->getName(),
-            'feedbacks' => Feedback::paginate(5),
+            'feedbacks' => $feedbacks->paginate(10),
         ]);
     }
 
@@ -42,6 +48,10 @@ class FeedbackController extends Controller
      */
     public function create(Request $request)
     {
+        if (Gate::denies('see-leave-feedback')) {
+            return redirect()->route('feedback.index')->withErrors(['Managers have no access to create feedbacks!']);
+        }
+
         return view('create', [
             'title' => 'Leave feedback',
             'route' => $request->route()->getName(),
@@ -57,6 +67,10 @@ class FeedbackController extends Controller
      */
     public function store(StoreFeedbackRequest $request)
     {
+        if (Gate::denies('see-leave-feedback')) {
+            return redirect()->route('feedback.index')->withErrors(['Managers have no access to create feedbacks!']);
+        }
+
         $name = '';
         $path = '';
 
@@ -89,18 +103,24 @@ class FeedbackController extends Controller
      */
     public function update(Request $request, Feedback $feedback)
     {
+        if (Gate::denies('change-feedback-status')) {
+            return back()->withErrors(['You have no access to edit feedback status!']);
+        }
+
         $feedback->answered_at = now();
         $feedback->save();
 
         return back()->with('status', 'Feedback status was changed to answered!');
     }
 
-    public function downloadAttachment()
+    public function downloadAttachment(Feedback $feedback)
     {
-        Storage::exists(
-            'files/' . $folder . '/' . $attachment_name
-        );
+        if (Gate::denies('download-attachments', $feedback)) {
+            return back()->withErrors(['You have no access to download attachments!']);
+        }
 
-        return Storage::download($url);
+        Storage::exists($feedback->attachment_url);
+
+        return Storage::download($feedback->attachment_url, $feedback->attachment_original_name);
     }
 }
