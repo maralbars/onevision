@@ -16,7 +16,7 @@
         </div>
         @endif
         <div class="card mb-4">
-            <div class="card-body px-0 pt-0 pb-2">
+            <div class="card-body px-0 pt-0 pb-1">
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0">
                         <thead>
@@ -41,7 +41,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($feedbacks as $feedback)
+                            @forelse ($feedbacks as $feedback)
                             <tr>
                                 <td class="text-center">
                                     <span class="text-secondary text-xs font-weight-bold">{{ $feedback->id }}</span>
@@ -61,7 +61,8 @@
                                 <td class="align-middle text-center">
                                     @if ($feedback->attachment_original_name)
                                     <span class="text-secondary text-xxs font-weight-bold">
-                                        <a href="{{ route('feedback.download', $feedback->id) }}" class="text-nowrap overflow-hidden d-inline-block"
+                                        <a href="{{ route('feedback.download', $feedback->id) }}"
+                                            class="text-nowrap overflow-hidden d-inline-block"
                                             style="width: 10rem; text-overflow: ellipsis;"
                                             title="{{$feedback->attachment_original_name }}"><i
                                                 class="fas fa-download me-1"></i> {{$feedback->attachment_original_name
@@ -92,8 +93,11 @@
                                     @endif
                                 </td>
                             </tr>
-                            @endforeach
-
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center"><span class="text-secondary text-xs font-weight-bold mt-5 d-inline-block">You have no feedbacks yet!</span></td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
