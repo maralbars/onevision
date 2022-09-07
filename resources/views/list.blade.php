@@ -61,7 +61,7 @@
                                 <td class="align-middle text-center">
                                     @if ($feedback->attachment_original_name)
                                     <span class="text-secondary text-xxs font-weight-bold">
-                                        <a href="#" class="text-nowrap overflow-hidden d-inline-block"
+                                        <a href="{{ route('feedback.download', $feedback->id) }}" class="text-nowrap overflow-hidden d-inline-block"
                                             style="width: 10rem; text-overflow: ellipsis;"
                                             title="{{$feedback->attachment_original_name }}"><i
                                                 class="fas fa-download me-1"></i> {{$feedback->attachment_original_name

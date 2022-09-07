@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::redirect('/', 'feedback');
 
 Route::resource('feedback', FeedbackController::class)->only([
     'index', 'create', 'store', 'update'
 ]);;
+
+Route::get('feedback/{feedback}/download', [FeedbackController::class, 'downloadAttachment'])->name('feedback.download');
