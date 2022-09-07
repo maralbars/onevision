@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\notifyManager;
 use App\Models\Feedback;
 use Illuminate\Support\Facades\Mail;
 
@@ -22,11 +23,7 @@ class FeedbackObserver
      */
     public function created(Feedback $feedback)
     {
-        $user = $feedback->user;
-        Mail::send('emails.notify', ['user' => $user, 'feedback' => $feedback], function ($m) use ($user, $feedback) {
-            $m->from($user->email, $user->name);
-            $m->to('hello@exampleihh.com', config('app.name', 'Feedback CRM'))->subject('New feedback: ' . $feedback->subject);
-        });
+        notifyManager::dispatch($feedback);
     }
 
     /**
